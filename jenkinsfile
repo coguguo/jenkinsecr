@@ -9,20 +9,24 @@ Pipelines{
             steps{
                 withDockerRegistry(
                     [credentialsID:"dockerhub", url: ""]
-                ){
+                )   {
+                    script{
                     docker.build("jenkins_easybuggy")
+                    }
                 }
             }
         }
 
         stage('push'){
-        steps{
-            script{
-                docker.withRegistry("292879356106.dkr.ecr.us-west-2.amazonaws.com", "ecr:us-west-2:AWS_login")
-                app.push("latest")
+            steps{
+                script{
+                    docker.withRegistry("292879356106.dkr.ecr.us-west-2.amazonaws.com", "ecr:us-west-2:AWS_login")
+                    app.push("latest")
                 
+                }
             }
         }
+
     }
 
 }
