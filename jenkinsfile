@@ -1,0 +1,29 @@
+Pipelines{
+    agent any
+    // tools{
+    //     maven "Maven_3_5_2"
+    // }
+
+    stages{
+        stage('build'){
+            steps{
+                withDockerRegistry(
+                    [credentialsID:"dockerhub", url: ""]
+                ){
+                    docker.build("jenkins_easybuggy")
+                }
+            }
+        }
+
+        stage('push'){
+        steps{
+            script{
+                docker.withDockerRegistry("292879356106.dkr.ecr.us-west-2.amazonaws.com", "ecr:us-west-2:AWS_login")
+                {
+                    app.push("latest")
+                }
+            }
+        }
+    }
+
+}
